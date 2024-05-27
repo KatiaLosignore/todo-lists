@@ -9,7 +9,18 @@ using shared.Domain.Entities;
 using webapi.Features.Infrastructure.Data;
 using shared.Models.ToDoLists;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:7034").AllowAnyHeader().AllowAnyMethod();
+                      });
+});
+
 
 builder.Services.AddFastEndpoints().SwaggerDocument();
 
@@ -35,8 +46,11 @@ builder.Services.AddControllers();
 ////utilizzo di automapper
 //builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
 
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/", () => "Hello World!");
 
