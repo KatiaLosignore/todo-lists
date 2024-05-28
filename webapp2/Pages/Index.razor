@@ -1,0 +1,48 @@
+﻿@page "/todo-lists"
+@using System.Net.Http
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+
+@using WebApp.Components.Services
+@using shared.Models.ToDoLists
+@inject HttpClient HttpClient
+@inject TodoListService TodoListService
+@inject NavigationManager NavManager
+
+<PageTitle>Lists</PageTitle>
+
+@if (response is null)
+{
+    <p><em>Loading ...</em></p>
+}
+else
+{
+    <div class="row">
+        @foreach (var toDoList in response)
+        {
+            <h1>@toDoList.Title :</h1>
+
+            @foreach (var item in toDoList.Items) {
+
+                <p>@item.Text</p>
+            }
+        }
+    </div>
+}
+
+
+@code {
+
+    List<AllResponse>? response;
+
+    private string newToDoListTitle = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        response = await TodoListService.ListAllModelAsync(HttpClient);
+    }
+
+
+}

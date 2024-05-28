@@ -17,7 +17,7 @@ namespace shared.Domain.Entities
             Items = new List<Todoitem>();
         }
 
-
+        public Todolist() { }
         public static Todolist Create(string title) 
         { 
             return new Todolist(Guid.NewGuid(), title, false);

@@ -28,7 +28,8 @@ namespace webapi.Features.TodoList.GetAll
 
         public override async Task HandleAsync(AllRequest req, CancellationToken ct)
         {
-            var query = _dbContext.Lists.AsQueryable();
+         
+            var query = _dbContext.Lists.Include(x => x.Items).AsQueryable();
 
             var paginatedItems = await query
                 .Skip((req.PageIndex - 1) * req.PageSize)

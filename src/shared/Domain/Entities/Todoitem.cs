@@ -22,6 +22,7 @@ namespace shared.Domain.Entities
           
         }
 
+        public Todoitem () { }
 
         public static Todoitem Create(string text, Guid ListId)
         {

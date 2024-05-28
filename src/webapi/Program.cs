@@ -3,11 +3,12 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using System.Reflection;
-using webapi.Features.TodoList.GetAll;
+using Microsoft.EntityFrameworkCore;
 using shared.Domain.Entities;
 using webapi.Features.Infrastructure.Data;
 using shared.Models.ToDoLists;
+using System.Reflection;
+
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -15,11 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("https://localhost:7034").AllowAnyHeader().AllowAnyMethod();
-                      });
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7251").AllowAnyHeader().AllowAnyMethod();
+        });
 });
+
 
 
 builder.Services.AddFastEndpoints().SwaggerDocument();
@@ -52,11 +54,10 @@ var app = builder.Build();
 
 app.UseCors(MyAllowSpecificOrigins);
 
+app.UseFastEndpoints().UseSwaggerGen();
+
 app.MapGet("/", () => "Hello World!");
 
-
-
-app.UseFastEndpoints().UseSwaggerGen();
 
 app.Run();
 

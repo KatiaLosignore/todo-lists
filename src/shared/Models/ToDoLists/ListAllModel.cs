@@ -4,7 +4,7 @@ using shared.Domain.Entities;
 
 namespace shared.Models.ToDoLists
 {
-    public record AllResponse(Guid Id, string Title);
+    public record AllResponse(Guid Id, string Title, List<Todoitem> Items);
 
     public record AllRequest(int PageSize = 10, int PageIndex = 1);
 
